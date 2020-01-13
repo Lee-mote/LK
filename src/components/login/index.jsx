@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Icon } from 'antd';
+import { Form, Input, Button, Icon ,message} from 'antd';
 import logo from './logo.png';
 import './index.less';
+import axios from 'axios';
 
 @Form.create()
 class Login extends Component {
@@ -19,6 +20,29 @@ class Login extends Component {
     }
     callback();
   };
+  login=e=>{
+    e.preventDefault();
+  this.props.from.validateFields((err,values)=>{
+    if(!err){
+      const {uesrname,password}=values;
+      axios
+      .post('/api/login',{uesrname,password})
+      .then(response=>{
+        if(response.data.status===0){
+          this.props.history.replace('/');
+        }else{
+          message.error(response.data.msg);
+          this.props.form.resetFields(['password']);
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+        message.error('网络错误~~');
+        this.props.form.resetFields(['password']);
+      });
+    };
+  });
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -30,7 +54,7 @@ class Login extends Component {
         </header>
         <section className='login-section'>
           <h3>用户登录</h3>
-          <Form className='login-form'>
+          <Form className='login-form' onSubmit={this.login}>
             <Form.Item>
               {getFieldDecorator('username', {
                 rules: [
@@ -64,7 +88,7 @@ class Login extends Component {
               )}
             </Form.Item>
             <Form.Item>
-              <Button className='login-form-btn' type='primary'>
+              <Button className='login-form-btn' type='primary' htmlType='submit'>
                 登录
               </Button>
             </Form.Item>
