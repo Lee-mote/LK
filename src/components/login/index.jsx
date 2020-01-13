@@ -2,55 +2,16 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Icon ,message} from 'antd';
 import logo from './logo.png';
 import './index.less';
-import axios from 'axios';
 
 @Form.create()
 class Login extends Component {
-  validator = (rule, value, callback) => {
-    const name = rule.field === 'username' ? '用户名' : '密码';
-    const reg = /^\w+$/;
-    if (!value) {
-      callback(`${name}不能为空`);
-    } else if (value.length < 4) {
-      callback(`${name}必须大于4位`);
-    } else if (value.length > 15) {
-      callback(`${name}必须小于15位`);
-    } else if (!reg.test(value)) {
-      callback(`${name}只能包含英文、数字、下划线`);
-    }
-    callback();
-  };
-  login=e=>{
-    e.preventDefault();
-  this.props.from.validateFields((err,values)=>{
-    if(!err){
-      const {uesrname,password}=values;
-      axios
-      .post('/api/login',{uesrname,password})
-      .then(response=>{
-        if(response.data.status===0){
-          this.props.history.replace('/');
-        }else{
-          message.error(response.data.msg);
-          this.props.form.resetFields(['password']);
-        }
-      })
-      .catch(err=>{
-        console.log(err);
-        message.error('网络错误~~');
-        this.props.form.resetFields(['password']);
-      });
-    };
-  });
-  };
-
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className='login'>
         <header className='login-header'>
           <img src={logo} alt='logo' />
-          <h1>React项目: 后台管理系统</h1>
+          <h1>LK项目: 来嗨吖后台管理系统</h1>
         </header>
         <section className='login-section'>
           <h3>用户登录</h3>
