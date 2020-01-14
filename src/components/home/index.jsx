@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-export default class Home extends Component {
+
+import withCheckLogin from '$cont/with-check-login';
+
+@withCheckLogin
+class Home extends Component {
   render() {
-    return (
-      <div>
-        Home...
-      </div>
-    )
+    return <h1>welcome to DIFU！！！</h1>
   }
 }
+
+export default Home;

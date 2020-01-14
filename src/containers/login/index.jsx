@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { Form, Input, Button, Icon ,message} from 'antd';
-import logo from './logo.png';
+import logo from '../../assets/imgs/logo.png';
 import './index.less';
+import { connect } from 'react-redux';
+import { saveUserAsync } from '$redux/actions';
+import withCheckLogin from '$cont/with-check-login';
 
+const { Item } = Form;
+
+@withCheckLogin
+@connect(null, { saveUserAsync })
 @Form.create()
 class Login extends Component {
   validator = (rule, value, callback) => {
@@ -44,12 +51,12 @@ class Login extends Component {
       <div className='login'>
         <header className='login-header'>
           <img src={logo} alt='logo' />
-          <h1>LK项目: 来嗨吖后台管理系统</h1>
+          <h1>地府项目: 来嗨吖后台管理系统</h1>
         </header>
         <section className='login-section'>
           <h3>用户登录</h3>
           <Form className='login-form' onSubmit={this.login}>
-            <Form.Item>
+            <Item>
               {getFieldDecorator('username', {
                 rules: [
                   {
@@ -64,8 +71,8 @@ class Login extends Component {
                   placeholder='用户名'
                 />
               )}
-            </Form.Item>
-            <Form.Item>
+            </Item>
+            <Item>
               {getFieldDecorator('password', {
                 rules: [
                   {
@@ -80,12 +87,12 @@ class Login extends Component {
                   placeholder='密码'
                 />
               )}
-            </Form.Item>
-            <Form.Item>
+            </Item>
+            <Item>
               <Button className='login-form-btn' type='primary' htmlType='submit'>
                 登录
               </Button>
-            </Form.Item>
+            </Item>
           </Form>
         </section>
       </div>
